@@ -1,0 +1,385 @@
+/**
+ * Enhanced UI Styles for Better Text Visibility and Modern Design
+ * This file provides additional CSS for improved readability and visual hierarchy
+ */
+
+/* Global text improvements */
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enhanced text contrast classes */
+.text-enhanced-primary {
+  color: #111827 !important; /* Gray-900 */
+}
+
+.dark .text-enhanced-primary {
+  color: #FFFFFF !important; /* Pure white */
+}
+
+.text-enhanced-secondary {
+  color: #374151 !important; /* Gray-700 */
+}
+
+.dark .text-enhanced-secondary {
+  color: #E5E7EB !important; /* Gray-200 */
+}
+
+.text-enhanced-muted {
+  color: #6B7280 !important; /* Gray-500 */
+}
+
+.dark .text-enhanced-muted {
+  color: #9CA3AF !important; /* Gray-400 */
+}
+
+/* Enhanced button styles */
+.btn-enhanced {
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-enhanced:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.btn-enhanced:active {
+  transform: translateY(0);
+}
+
+/* Enhanced card styles */
+.card-enhanced {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .card-enhanced {
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(51, 65, 85, 0.8);
+}
+
+.card-enhanced:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Enhanced input styles */
+.input-enhanced {
+  font-weight: 500;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-width: 2px;
+}
+
+.input-enhanced:focus {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: #4F46E5;
+}
+
+.dark .input-enhanced:focus {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  border-color: #6366F1;
+}
+
+/* Enhanced typography scale */
+.text-display-1 {
+  font-size: 3.75rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.text-display-2 {
+  font-size: 3rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.text-display-3 {
+  font-size: 2.25rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.text-heading-1 {
+  font-size: 1.875rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.text-heading-2 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.text-heading-3 {
+  font-size: 1.25rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.text-body-large {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.text-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.text-body-small {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.text-caption {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/* Enhanced spacing utilities */
+.space-enhanced > * + * {
+  margin-top: 1.5rem;
+}
+
+.space-enhanced-sm > * + * {
+  margin-top: 1rem;
+}
+
+.space-enhanced-lg > * + * {
+  margin-top: 2rem;
+}
+
+/* Enhanced focus styles */
+.focus-enhanced:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: #4F46E5;
+}
+
+.dark .focus-enhanced:focus {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  border-color: #6366F1;
+}
+
+/* Enhanced animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced gradient backgrounds */
+.bg-gradient-enhanced {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.dark .bg-gradient-enhanced {
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+}
+
+/* Enhanced glass morphism */
+.glass-enhanced {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-enhanced {
+  background: rgba(30, 41, 59, 0.3);
+  border: 1px solid rgba(51, 65, 85, 0.3);
+}
+
+/* Enhanced scrollbar */
+.scrollbar-enhanced::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-enhanced::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.scrollbar-enhanced::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.scrollbar-enhanced::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark .scrollbar-enhanced::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.dark .scrollbar-enhanced::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark .scrollbar-enhanced::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Enhanced loading states */
+.loading-enhanced {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-enhanced::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+.dark .loading-enhanced::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Enhanced status indicators */
+.status-online {
+  color: #10b981;
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.status-warning {
+  color: #f59e0b;
+  background-color: rgba(245, 158, 11, 0.1);
+}
+
+.status-error {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Enhanced accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Enhanced print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    color: #000 !important;
+    background: #fff !important;
+  }
+  
+  .card-enhanced {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Enhanced mobile optimizations */
+@media (max-width: 640px) {
+  .text-display-1 {
+    font-size: 2.5rem;
+  }
+  
+  .text-display-2 {
+    font-size: 2rem;
+  }
+  
+  .text-display-3 {
+    font-size: 1.75rem;
+  }
+  
+  .space-enhanced > * + * {
+    margin-top: 1rem;
+  }
+}
+
+/* Enhanced high contrast mode */
+@media (prefers-contrast: high) {
+  .text-enhanced-primary {
+    color: #000000 !important;
+  }
+  
+  .dark .text-enhanced-primary {
+    color: #FFFFFF !important;
+  }
+  
+  .card-enhanced {
+    border-width: 2px !important;
+  }
+  
+  .btn-enhanced {
+    border-width: 2px !important;
+  }
+}
