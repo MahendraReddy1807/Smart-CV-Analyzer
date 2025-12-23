@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { useTheme } from '../contexts/ThemeContext.jsx'
 
 const ThemeToggle = () => {
@@ -27,84 +26,52 @@ const ThemeToggle = () => {
       `} />
       
       {/* Toggle switch circle */}
-      <motion.div
-        className="relative z-10 h-7 w-7 rounded-full shadow-xl flex items-center justify-center text-lg backdrop-blur-sm"
+      <div
+        className={`
+          relative z-10 h-7 w-7 rounded-full shadow-xl flex items-center justify-center text-lg backdrop-blur-sm transition-all duration-500 ease-out
+          ${isDarkMode ? 'translate-x-8' : 'translate-x-0.5'}
+        `}
         style={{
           background: isDarkMode 
             ? 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)' 
             : 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)'
         }}
-        animate={{
-          x: isDarkMode ? 32 : 2,
-          rotate: isDarkMode ? 360 : 0,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 400,
-          damping: 25,
-          rotate: { duration: 0.8 }
-        }}
       >
-        <motion.span
-          animate={{
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
+        <span className="animate-pulse">
           {isDarkMode ? '🌙' : '☀️'}
-        </motion.span>
-      </motion.div>
+        </span>
+      </div>
       
-      {/* Animated particles for dark mode */}
+      {/* Static particles for dark mode */}
       {isDarkMode && (
         <div className="absolute inset-0 overflow-hidden rounded-full">
           {[...Array(4)].map((_, i) => (
-            <motion.div
+            <div
               key={i}
-              className="absolute w-1 h-1 bg-white/60 rounded-full"
+              className="absolute w-1 h-1 bg-white/60 rounded-full animate-pulse"
               style={{
                 left: `${15 + i * 15}%`,
                 top: `${25 + (i % 2) * 25}%`,
-              }}
-              animate={{
-                opacity: [0.3, 1, 0.3],
-                scale: [0.5, 1, 0.5],
-              }}
-              transition={{
-                duration: 2 + i * 0.5,
-                repeat: Infinity,
-                delay: i * 0.3,
+                animationDelay: `${i * 0.3}s`,
               }}
             />
           ))}
         </div>
       )}
       
-      {/* Animated rays for light mode */}
+      {/* Static rays for light mode */}
       {!isDarkMode && (
         <div className="absolute inset-0 overflow-hidden rounded-full">
           {[...Array(6)].map((_, i) => (
-            <motion.div
+            <div
               key={i}
-              className="absolute w-0.5 h-2 bg-yellow-300/40 rounded-full"
+              className="absolute w-0.5 h-2 bg-yellow-300/40 rounded-full animate-pulse"
               style={{
                 left: '50%',
                 top: '50%',
                 transformOrigin: '50% 16px',
                 transform: `rotate(${i * 60}deg) translateX(-50%)`,
-              }}
-              animate={{
-                opacity: [0.4, 0.8, 0.4],
-                scaleY: [0.8, 1.2, 0.8],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                delay: i * 0.1,
+                animationDelay: `${i * 0.1}s`,
               }}
             />
           ))}
