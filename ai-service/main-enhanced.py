@@ -553,6 +553,15 @@ async def analyze_resume(
             extracted_text = analyzer.extract_text_from_pdf(file_content)
         elif file.content_type in ["image/jpeg", "image/jpg", "image/png"]:
             extracted_text = analyzer.extract_text_from_image(file_content)
+        elif file.content_type in ["text/plain", "text/txt", "application/txt"]:
+            # Handle text files directly
+            try:
+                extracted_text = file_content.decode('utf-8')
+            except UnicodeDecodeError:
+                try:
+                    extracted_text = file_content.decode('latin-1')
+                except:
+                    extracted_text = "Error: Could not decode text file"
         else:
             extracted_text = f"Unsupported file type: {file.content_type}"
         
@@ -684,4 +693,6 @@ async def search_jobs(
     }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8002)
+    import os
+    port = int(os.environ.get("PORT", 8002))
+    uvicorn.run(app, host="0.0.0.0", port=port)
