@@ -38,14 +38,33 @@ const PremiumDashboard = () => {
   const fetchAnalyses = async () => {
     try {
       setLoading(true);
-      const response = await resumeAPI.getUserAnalyses('guest', 1, 50);
+      setError('');
       
-      if (response.data.success) {
-        setAnalyses(response.data.data.analyses);
+      console.log('PremiumDashboard: Fetching analyses...');
+      const response = await resumeAPI.getUserAnalyses('guest', 1, 50);
+      console.log('PremiumDashboard: API response:', response.data);
+      
+      // Handle different response formats
+      let analysesData = [];
+      if (Array.isArray(response.data)) {
+        // Direct array response
+        analysesData = response.data;
+      } else if (response.data.success && response.data.data?.analyses) {
+        // Nested response format
+        analysesData = response.data.data.analyses;
+      } else if (response.data.analyses) {
+        // Simple nested format
+        analysesData = response.data.analyses;
       } else {
-        setError(response.data.message || 'Failed to load analysis history');
+        console.warn('PremiumDashboard: Unexpected response format:', response.data);
+        analysesData = [];
       }
+      
+      console.log('PremiumDashboard: Processed analyses:', analysesData);
+      setAnalyses(analysesData);
+      
     } catch (err) {
+      console.error('PremiumDashboard: Error fetching analyses:', err);
       const errorMessage = handleAPIError(err, 'Failed to load analysis history');
       setError(errorMessage);
     } finally {
@@ -54,39 +73,65 @@ const PremiumDashboard = () => {
   };
 
   const calculateStats = () => {
-    if (analyses.length === 0) return;
+    if (!analyses || analyses.length === 0) {
+      setStats({ totalAnalyses: 0, averageScore: 0, topScore: 0, recentAnalyses: 0 });
+      return;
+    }
 
-    const totalAnalyses = analyses.length;
-    const averageScore = Math.round(
-      analyses.reduce((sum, analysis) => sum + analysis.overallScore, 0) / totalAnalyses
-    );
-    const topScore = Math.max(...analyses.map(a => a.overallScore));
-    const recentAnalyses = analyses.filter(
-      a => new Date(a.uploadTimestamp) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-    ).length;
+    try {
+      const totalAnalyses = analyses.length;
+      const validScores = analyses.filter(a => typeof a.overallScore === 'number').map(a => a.overallScore);
+      
+      const averageScore = validScores.length > 0 
+        ? Math.round(validScores.reduce((sum, score) => sum + score, 0) / validScores.length)
+        : 0;
+        
+      const topScore = validScores.length > 0 ? Math.max(...validScores) : 0;
+      
+      const recentAnalyses = analyses.filter(a => {
+        try {
+          return a.uploadTimestamp && new Date(a.uploadTimestamp) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        } catch {
+          return false;
+        }
+      }).length;
 
-    setStats({ totalAnalyses, averageScore, topScore, recentAnalyses });
+      setStats({ totalAnalyses, averageScore, topScore, recentAnalyses });
+    } catch (error) {
+      console.error('PremiumDashboard: Error calculating stats:', error);
+      setStats({ totalAnalyses: 0, averageScore: 0, topScore: 0, recentAnalyses: 0 });
+    }
   };
 
-  const filteredAnalyses = analyses
-    .filter(analysis => 
-      analysis.uploadedFileName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      analysis.jobRole.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+  const filteredAnalyses = (analyses || [])
+    .filter(analysis => {
+      try {
+        const fileName = analysis.uploadedFileName || '';
+        const jobRole = analysis.jobRole || '';
+        return fileName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+               jobRole.toLowerCase().includes(searchTerm.toLowerCase());
+      } catch {
+        return false;
+      }
+    })
     .sort((a, b) => {
-      switch (sortBy) {
-        case 'newest':
-          return new Date(b.uploadTimestamp) - new Date(a.uploadTimestamp);
-        case 'oldest':
-          return new Date(a.uploadTimestamp) - new Date(b.uploadTimestamp);
-        case 'score-high':
-          return b.overallScore - a.overallScore;
-        case 'score-low':
-          return a.overallScore - b.overallScore;
-        case 'name':
-          return a.uploadedFileName.localeCompare(b.uploadedFileName);
-        default:
-          return 0;
+      try {
+        switch (sortBy) {
+          case 'newest':
+            return new Date(b.uploadTimestamp || 0) - new Date(a.uploadTimestamp || 0);
+          case 'oldest':
+            return new Date(a.uploadTimestamp || 0) - new Date(b.uploadTimestamp || 0);
+          case 'score-high':
+            return (b.overallScore || 0) - (a.overallScore || 0);
+          case 'score-low':
+            return (a.overallScore || 0) - (b.overallScore || 0);
+          case 'name':
+            return (a.uploadedFileName || '').localeCompare(b.uploadedFileName || '');
+          default:
+            return 0;
+        }
+      } catch {
+        return 0;
       }
     });
 

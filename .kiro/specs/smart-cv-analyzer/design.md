@@ -104,6 +104,13 @@ def extract_text_from_file(file_path: str) -> str
 def preprocess_extracted_text(raw_text: str) -> str
 ```
 
+**Content Validation Module**
+```python
+def validate_resume_content(text: str) -> Tuple[bool, str]
+def count_resume_keywords(text: str) -> int
+def is_legitimate_resume(text: str) -> bool
+```
+
 **Section Classification Module**
 ```python
 def classify_resume_sections(text: str) -> Dict[str, str]
@@ -138,6 +145,11 @@ def improve_grammar_and_style(text: str) -> str
   
   // Extracted content
   parsedText: String,
+  validationStatus: {
+    isValidResume: Boolean,
+    keywordCount: Number,
+    validationMessage: String
+  },
   sections: {
     contactInfo: {
       name: String,
@@ -213,29 +225,33 @@ Based on the prework analysis, I'll consolidate related properties to eliminate 
 *For any* uploaded file, if the format is not supported (not PDF, PNG, JPG, JPEG), the system should reject the upload and return an appropriate error message
 **Validates: Requirements 1.3**
 
-**Property 3: Section Classification Completeness**
+**Property 3: Resume Content Validation**
+*For any* extracted text content, if the content contains fewer than 3 resume-related keywords from the comprehensive keyword list, the system should reject the document as non-resume content and prevent further analysis
+**Validates: Requirements 8.1, 8.2, 8.3, 8.4**
+
+**Property 4: Section Classification Completeness**
 *For any* resume text containing identifiable sections (contact, education, skills, projects, experience), the section classifier should detect and properly categorize all present sections
 **Validates: Requirements 2.1, 2.2, 2.3, 2.4**
 
-**Property 4: Score Boundary Compliance**
+**Property 5: Score Boundary Compliance**
 *For any* resume analysis, the calculated score should always be within the valid range of 0 to 100, regardless of resume quality or content
 **Validates: Requirements 3.1**
 
-**Property 5: Enhancement Content Preservation**
+**Property 6: Enhancement Content Preservation**
 *For any* bullet point enhancement, the improved version should maintain all factual information from the original while improving language quality and impact
 **Validates: Requirements 5.3**
 
-**Property 6: Keyword Gap Analysis**
+**Property 7: Keyword Gap Analysis**
 *For any* resume and target job role combination, if the resume lacks keywords relevant to that job role, the system should identify and suggest those missing keywords
 **Validates: Requirements 4.2, 4.5**
 
-**Property 7: Data Persistence Integrity**
+**Property 8: Data Persistence Integrity**
 *For any* completed analysis, storing the results should preserve all analysis components (scores, recommendations, enhancements, original content) such that retrieval returns identical data
 **Validates: Requirements 7.1, 7.3**
 
-**Property 8: Enhanced Resume Generation**
+**Property 9: Enhanced Resume Generation**
 *For any* analysis with applied enhancements, generating the enhanced resume should produce a valid PDF document containing all accepted improvements and maintaining ATS-friendly formatting
-**Validates: Requirements 8.1, 8.3, 8.4**
+**Validates: Requirements 9.1, 9.3, 9.4**
 
 ## Error Handling
 

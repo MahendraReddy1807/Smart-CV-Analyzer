@@ -1,0 +1,19 @@
+Mahendra Reddy
+Machine Learning Engineer
+mahendra.reddy@company.com
+(555) 123-4567
+Hyderabad, India
+
+EXPERIENCE
+Senior ML Engineer at TechCorp (2021-Present)
+• Developed deep learning models using TensorFlow and PyTorch
+• Built recommendation systems serving 10M+ users
+• Implemented MLOps pipelines with Docker and Kubernetes
+• Led team of 5 ML engineers
+
+SKILLS
+Python, TensorFlow, PyTorch, Scikit-learn, Pandas, NumPy, SQL, AWS, Docker, Kubernetes, Git, Machine Learning, Deep Learning, NLP, Computer Vision
+
+EDUCATION
+Master of Science in Machine Learning
+Indian Institute of Technology, 2019-2021

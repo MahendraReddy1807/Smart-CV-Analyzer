@@ -92,7 +92,26 @@ const UploadResume = () => {
       }
 
     } catch (err) {
-      const errorMessage = handleAPIError(err, 'Failed to upload and analyze resume')
+      console.error('Upload error:', err)
+      
+      let errorMessage = 'Failed to upload and analyze resume'
+      
+      // Handle validation errors specifically
+      if (err.response?.status === 400) {
+        const errorData = err.response.data
+        if (errorData.status === 'invalid' || errorData.error === 'INVALID_RESUME_CONTENT') {
+          setError({
+            type: 'validation',
+            message: errorData.message || 'The uploaded document is not a valid resume.',
+            details: errorData.details,
+            suggestions: errorData.suggestions || []
+          })
+          return
+        }
+      }
+      
+      // Handle other errors
+      errorMessage = handleAPIError(err, errorMessage)
       setError(errorMessage)
     } finally {
       setIsUploading(false)
@@ -300,9 +319,48 @@ const UploadResume = () => {
 
         {/* Error Display */}
         {error && (
-          <Card variant="outlined" className="border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20">
+          <Card variant="outlined" className={
+            typeof error === 'object' && error.type === 'validation'
+              ? "border-orange-300 dark:border-orange-600 bg-orange-50 dark:bg-orange-900/20"
+              : "border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20"
+          }>
             <CardContent className="py-3">
-              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              {typeof error === 'object' && error.type === 'validation' ? (
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-2">
+                    <span className="text-orange-500 text-lg">📄</span>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-orange-800 dark:text-orange-200 mb-1">
+                        Invalid Resume Document
+                      </p>
+                      <p className="text-sm text-orange-600 dark:text-orange-400 mb-2">
+                        {error.message}
+                      </p>
+                      
+                      {error.details && (
+                        <p className="text-xs text-orange-500 dark:text-orange-400 mb-2">
+                          {error.details}
+                        </p>
+                      )}
+                      
+                      {error.suggestions && error.suggestions.length > 0 && (
+                        <div className="mt-2">
+                          <p className="text-xs font-medium text-orange-700 dark:text-orange-300 mb-1">
+                            Suggestions:
+                          </p>
+                          <ul className="text-xs text-orange-600 dark:text-orange-400 space-y-1">
+                            {error.suggestions.map((suggestion, index) => (
+                              <li key={index}>• {suggestion}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              )}
             </CardContent>
           </Card>
         )}

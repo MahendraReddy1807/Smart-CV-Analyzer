@@ -53,6 +53,30 @@
     - Display extracted text for user verification
     - _Requirements: 1.4_
 
+- [ ] 2.6 Implement resume content validation
+  - [x] 2.6.1 Create content validation module in Python AI service
+    - Define comprehensive resume keyword list including education, skills, experience, projects, internship, certification terms
+    - Implement keyword counting algorithm to detect resume-related content
+    - Create validation function that requires minimum 3 keywords for resume classification
+    - Add validation for non-resume content detection (social media, congratulations, etc.)
+    - _Requirements: 8.1, 8.2_
+
+  - [x]* 2.6.2 Write property test for resume content validation
+    - **Property 3: Resume Content Validation**
+    - **Validates: Requirements 8.1, 8.2, 8.3, 8.4**
+
+  - [x] 2.6.3 Update API response format for validation results
+    - Modify backend to handle validation errors from AI service
+    - Return appropriate error messages for non-resume content
+    - Prevent further processing when validation fails
+    - _Requirements: 8.3, 8.4_
+
+  - [ ] 2.6.4 Update frontend to handle validation errors
+    - Display clear error messages for non-resume uploads
+    - Prevent rendering of analysis components for invalid content
+    - Add user guidance for uploading proper resume documents
+    - _Requirements: 8.5_
+
 - [x] 3. Implement resume section classification using NLP
 
   - [x] 3.1 Build section classification module
@@ -68,7 +92,7 @@
   - [x] 3.2 Write property test for section classification
 
 
-    - **Property 3: Section Classification Completeness**
+    - **Property 4: Section Classification Completeness**
     - **Validates: Requirements 2.1, 2.2, 2.3, 2.4**
 
   - [x] 3.3 Create structured data display component
@@ -98,7 +122,7 @@
 
 
 
-    - **Property 4: Score Boundary Compliance**
+    - **Property 5: Score Boundary Compliance**
     - **Validates: Requirements 3.1**
 
 
@@ -118,7 +142,7 @@
 
 
 
-    - **Property 6: Keyword Gap Analysis**
+    - **Property 7: Keyword Gap Analysis**
     - **Validates: Requirements 4.2, 4.5**
 
   - [x] 4.5 Create analysis results display component
@@ -155,7 +179,7 @@
 
 
 
-    - **Property 5: Enhancement Content Preservation**
+    - **Property 6: Enhancement Content Preservation**
     - **Validates: Requirements 5.3**
 
   - [x] 6.3 Create enhancement comparison interface
@@ -204,7 +228,7 @@
 
 
 
-    - **Property 7: Data Persistence Integrity**
+    - **Property 8: Data Persistence Integrity**
     - **Validates: Requirements 7.1, 7.3**
 
 - [x] 9. Implement enhanced resume generation and download
@@ -223,8 +247,8 @@
 
 
 
-    - **Property 8: Enhanced Resume Generation**
-    - **Validates: Requirements 8.1, 8.3, 8.4**
+    - **Property 9: Enhanced Resume Generation**
+    - **Validates: Requirements 9.1, 9.3, 9.4**
 
   - [x] 9.3 Create download interface and file management
 
@@ -267,3 +291,26 @@
 
 
   - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 12. Fix analysis page data retrieval issue
+
+  - [x] 12.1 Diagnose backend service connectivity and API routing
+    - Verify backend server is running and accessible
+    - Check MongoDB connection status
+    - Validate API endpoint routing between frontend and backend
+    - Test analysis data retrieval from database
+    - _Requirements: 7.2, 7.4_
+
+  - [x] 12.2 Fix data persistence and retrieval workflow
+    - Ensure analysis data is properly saved to MongoDB after upload
+    - Fix any routing conflicts between Vercel API and backend server
+    - Validate analysis ID generation and lookup functionality
+    - Test complete upload-to-analysis workflow
+    - _Requirements: 7.1, 7.2, 7.3_
+
+  - [x] 12.3 Add error handling and user feedback for analysis retrieval
+    - Implement proper error messages for missing analysis data
+    - Add loading states and retry mechanisms
+    - Provide clear user guidance when analysis is not found
+    - Add debugging information for development environment
+    - _Requirements: 7.2, 7.4_

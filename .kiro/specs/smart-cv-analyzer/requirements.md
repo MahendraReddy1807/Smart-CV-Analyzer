@@ -15,6 +15,7 @@ The Smart CV Analyzer and Enhancer is an AI-powered web application designed to 
 - **Section_Classifier**: NLP component that identifies different resume sections
 - **Bullet_Enhancer**: GenAI component that improves resume bullet points
 - **Skill_Extractor**: Component that identifies technical and professional skills from text
+- **Content_Validator**: Component that validates whether uploaded documents contain legitimate resume content
 
 ## Requirements
 
@@ -27,7 +28,7 @@ The Smart CV Analyzer and Enhancer is an AI-powered web application designed to 
 1. WHEN a user uploads a PDF resume file, THE CV_Analyzer SHALL extract all text content using OCR technology
 2. WHEN a user uploads an image resume file, THE CV_Analyzer SHALL convert the image to text using OCR processing
 3. WHEN a user provides an invalid file format, THE CV_Analyzer SHALL reject the upload and display an appropriate error message
-4. WHEN the OCR extraction is complete, THE CV_Analyzer SHALL display the extracted text for user verification
+4. WHEN the OCR extraction is complete, THE Content_Validator SHALL validate that the extracted content is legitimate resume material before proceeding with analysis
 5. WHEN OCR processing fails, THE CV_Analyzer SHALL notify the user and request a different file format
 
 ### Requirement 2
@@ -103,6 +104,18 @@ The Smart CV Analyzer and Enhancer is an AI-powered web application designed to 
 5. WHEN user data is stored, THE CV_Analyzer SHALL ensure secure handling of personal information and resume content
 
 ### Requirement 8
+
+**User Story:** As a student, I want the system to validate that my uploaded document is actually a resume, so that I only receive analysis for legitimate resume content and avoid wasting time on non-resume documents.
+
+#### Acceptance Criteria
+
+1. WHEN text extraction is complete, THE CV_Analyzer SHALL validate the extracted content against resume-specific keywords before proceeding with analysis
+2. WHEN performing content validation, THE CV_Analyzer SHALL check for at least 3 unique resume-related keywords from a comprehensive list including education, skills, experience, projects, internship, certification, objective, and technical terms
+3. WHEN a document contains insufficient resume keywords, THE CV_Analyzer SHALL reject the document and return an error message stating "Uploaded document is not a resume. Please upload a valid resume."
+4. WHEN non-resume content is detected (such as congratulations messages, social media posts, or unrelated images), THE CV_Analyzer SHALL prevent further processing and ATS score calculation
+5. WHEN validation fails, THE CV_Analyzer SHALL provide clear guidance to the user about uploading appropriate resume documents in supported formats
+
+### Requirement 9
 
 **User Story:** As a student, I want to download an enhanced version of my resume, so that I can use the improved content for job applications.
 

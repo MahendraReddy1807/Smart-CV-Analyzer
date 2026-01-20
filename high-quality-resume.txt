@@ -1,0 +1,50 @@
+Sarah Wilson
+Senior Full Stack Developer
+sarah.wilson@techcorp.com
+(555) 234-5678
+Seattle, WA
+
+PROFESSIONAL SUMMARY
+Experienced Full Stack Developer with 5+ years of expertise in modern web technologies, 
+cloud architecture, and agile development practices.
+
+TECHNICAL SKILLS
+Frontend: JavaScript, TypeScript, React, Angular, Vue.js, HTML5, CSS3, SASS, Bootstrap
+Backend: Node.js, Express, Python, Django, Flask, Java, Spring Boot, C#, .NET
+Databases: PostgreSQL, MongoDB, MySQL, Redis, Elasticsearch
+Cloud & DevOps: AWS, Azure, Docker, Kubernetes, Jenkins, CI/CD, Terraform
+Tools: Git, GitHub, GitLab, Jira, Confluence, VS Code, IntelliJ
+
+EXPERIENCE
+Senior Full Stack Developer | TechCorp Inc. | 2021-Present
+• Led development of microservices architecture serving 1M+ users
+• Implemented React-based dashboard reducing load times by 60%
+• Designed RESTful APIs handling 10K+ requests per minute
+• Mentored team of 4 junior developers
+
+Full Stack Developer | StartupXYZ | 2019-2021
+• Built e-commerce platform using React, Node.js, and PostgreSQL
+• Integrated payment systems (Stripe, PayPal) processing $2M+ annually
+• Optimized database queries improving performance by 40%
+• Implemented automated testing reducing bugs by 75%
+
+EDUCATION
+Bachelor of Science in Computer Science
+University of Washington, 2015-2019
+GPA: 3.8/4.0
+
+CERTIFICATIONS
+• AWS Certified Solutions Architect (2023)
+• Google Cloud Professional Developer (2022)
+• Certified Kubernetes Administrator (2021)
+
+PROJECTS
+1. Real-time Chat Application
+• Built using React, Socket.io, Node.js, and MongoDB
+• Supports 1000+ concurrent users with message encryption
+• Deployed on AWS with auto-scaling capabilities
+
+2. AI-Powered Analytics Dashboard
+• Developed using Python, TensorFlow, and React
+• Processes 100GB+ data daily with machine learning insights
+• Reduced manual analysis time by 80%
