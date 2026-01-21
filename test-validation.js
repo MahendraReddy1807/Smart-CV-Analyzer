@@ -60,8 +60,17 @@ const testNonResume = () => {
 const testValidResume = () => {
   console.log('\n🧪 TEST 2: Uploading valid resume content (should be ACCEPTED)...\n');
   
+const testValidation = () => {
   const form = new FormData();
-  form.append('file', fs.createReadStream('test-resume.txt'));
+  
+  // Check if the actual PDF resume exists, otherwise skip test
+  if (fs.existsSync('Mahendra-Reddy-ML-Engineer.pdf')) {
+    form.append('file', fs.createReadStream('Mahendra-Reddy-ML-Engineer.pdf'));
+  } else {
+    console.log('❌ No test resume file found. Please ensure Mahendra-Reddy-ML-Engineer.pdf exists.');
+    return;
+  }
+  
   form.append('jobRole', 'Frontend Developer');
 
   const options = {

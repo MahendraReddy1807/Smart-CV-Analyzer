@@ -20,7 +20,7 @@
 ### Core Functionality Status
 | Feature | Status | Notes |
 |---------|--------|-------|
-| **Resume Upload** | ✅ Working | PDF, PNG, JPG, JPEG supported |
+| **Resume Upload** | ✅ Working | PDF only supported |
 | **AI Analysis** | ✅ Working | Minimal service providing full analysis |
 | **Score Calculation** | ✅ Working | Structure, Skills, Content, ATS scores |
 | **Results Display** | ✅ Working | Premium UI with proper contrast |
@@ -93,7 +93,7 @@ npm run dev
 - Backend API tests - All endpoints working
 
 ### Manual Testing Verified
-- ✅ Resume upload (PDF, PNG, JPG, JPEG)
+- ✅ Resume upload (PDF only)
 - ✅ AI analysis and scoring
 - ✅ Results display with proper formatting
 - ✅ Theme switching (dark/light mode)

@@ -42,7 +42,7 @@ All services should show ✅
 ### 2. Test Main Page Upload
 1. Open browser and go to: `http://localhost:3003`
 2. Navigate to the main upload page
-3. Select a PDF, PNG, JPG, or JPEG file
+3. Select a PDF file
 4. Enter a job role (e.g., "Software Engineer")
 5. Click "Analyze Resume"
 6. Upload should work and redirect to results page

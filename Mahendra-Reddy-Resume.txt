@@ -1,0 +1,96 @@
+Mahendra Reddy
+Machine Learning Engineer
+mahendra.reddy@company.com
+(555) 123-4567
+Hyderabad, India
+
+PROFESSIONAL SUMMARY
+Experienced Machine Learning Engineer with 4+ years of expertise in developing and deploying ML models, 
+data analysis, and building scalable AI solutions for enterprise applications.
+
+EDUCATION
+Master of Technology in Computer Science
+Indian Institute of Technology, Hyderabad
+2019-2021
+CGPA: 8.7/10
+
+Bachelor of Technology in Computer Science Engineering
+Jawaharlal Nehru Technological University
+2015-2019
+Percentage: 85%
+
+PROFESSIONAL EXPERIENCE
+Senior Machine Learning Engineer | TechCorp Solutions | 2021-Present
+• Developed and deployed deep learning models using TensorFlow and PyTorch
+• Built recommendation systems serving 10M+ users with 95% accuracy
+• Implemented MLOps pipelines with Docker and Kubernetes reducing deployment time by 60%
+• Led team of 5 ML engineers and mentored junior developers
+• Collaborated with product teams to integrate ML solutions into production systems
+
+Machine Learning Engineer | DataTech Analytics | 2020-2021
+• Designed and implemented computer vision models for image classification
+• Developed NLP models for sentiment analysis and text processing
+• Optimized model performance achieving 40% reduction in inference time
+• Created automated data preprocessing pipelines using Apache Spark
+
+Data Science Intern | AI Innovations Lab | Summer 2020
+• Conducted exploratory data analysis on large datasets (100M+ records)
+• Built predictive models for customer churn prediction
+• Presented findings to senior management and stakeholders
+
+TECHNICAL SKILLS
+Programming Languages: Python, R, SQL, Java, Scala
+Machine Learning: TensorFlow, PyTorch, Scikit-learn, Keras, XGBoost
+Deep Learning: CNN, RNN, LSTM, Transformers, GANs
+Data Processing: Pandas, NumPy, Apache Spark, Hadoop
+Cloud Platforms: AWS (SageMaker, EC2, S3), Google Cloud Platform, Azure
+MLOps: Docker, Kubernetes, MLflow, Kubeflow, Jenkins
+Databases: PostgreSQL, MongoDB, Redis, Elasticsearch
+Visualization: Matplotlib, Seaborn, Plotly, Tableau
+
+PROJECTS
+1. Real-time Fraud Detection System
+• Developed ensemble ML models using Random Forest and Neural Networks
+• Achieved 98% accuracy in detecting fraudulent transactions
+• Processed 1M+ transactions daily with sub-100ms latency
+• Technologies: Python, TensorFlow, Apache Kafka, Redis
+
+2. Intelligent Chatbot for Customer Support
+• Built NLP-based chatbot using BERT and transformer models
+• Reduced customer support tickets by 45%
+• Integrated with existing CRM systems
+• Technologies: Python, Transformers, Flask, MongoDB
+
+3. Computer Vision for Quality Control
+• Developed CNN models for automated defect detection in manufacturing
+• Improved quality control accuracy by 30%
+• Deployed on edge devices for real-time processing
+• Technologies: PyTorch, OpenCV, Docker, Raspberry Pi
+
+CERTIFICATIONS
+• AWS Certified Machine Learning Specialist (2023)
+• Google Professional Machine Learning Engineer (2022)
+• TensorFlow Developer Certificate (2021)
+• Microsoft Azure AI Engineer Associate (2021)
+
+ACHIEVEMENTS
+• Best Paper Award - International Conference on Machine Learning (2022)
+• Employee of the Year - TechCorp Solutions (2022)
+• Hackathon Winner - AI for Good Challenge (2021)
+• Published 3 research papers in top-tier ML conferences
+
+PUBLICATIONS
+1. "Scalable Deep Learning for Real-time Fraud Detection" - ICML 2022
+2. "Efficient Neural Architecture Search for Edge Devices" - NeurIPS 2021
+3. "Transfer Learning for Low-Resource NLP Tasks" - ACL 2021
+
+LANGUAGES
+• English (Fluent)
+• Hindi (Native)
+• Telugu (Native)
+
+INTERESTS
+• Open source contributions to ML libraries
+• Mentoring aspiring data scientists
+• Research in explainable AI and model interpretability
+• Photography and travel

@@ -40,7 +40,7 @@ const PremiumUpload = () => {
       if (rejection.errors.some(e => e.code === 'file-too-large')) {
         showNotification('File size must be less than 10MB', 'error');
       } else if (rejection.errors.some(e => e.code === 'file-invalid-type')) {
-        showNotification('Please upload a valid PDF, PNG, JPG, or JPEG file', 'error');
+        showNotification('Please upload a valid PDF file', 'error');
       } else {
         showNotification('Invalid file. Please try again.', 'error');
       }
@@ -56,15 +56,15 @@ const PremiumUpload = () => {
     }
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
     accept: {
-      'application/pdf': ['.pdf'],
-      'image/png': ['.png'],
-      'image/jpeg': ['.jpg', '.jpeg']
+      'application/pdf': ['.pdf']
     },
     maxSize: 10 * 1024 * 1024, // 10MB
-    multiple: false
+    multiple: false,
+    noClick: true, // Disable dropzone click to allow custom button
+    noKeyboard: false // Allow keyboard navigation
   });
 
   const handleSubmit = async (e) => {
@@ -212,7 +212,7 @@ const PremiumUpload = () => {
                 <div
                   {...getRootProps()}
                   className={`
-                    group relative border-2 border-dashed rounded-3xl p-12 text-center cursor-pointer 
+                    group relative border-2 border-dashed rounded-3xl p-12 text-center 
                     transition-all duration-500 transform focus:outline-none focus:ring-4 focus:ring-indigo-500/20
                     ${isDragActive
                       ? 'border-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 scale-105 shadow-2xl'
@@ -221,9 +221,8 @@ const PremiumUpload = () => {
                       : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/10 hover:shadow-xl hover:scale-102'
                     }
                   `}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={file ? `Selected file: ${file.name}. Click to change file.` : "Click or drag to upload resume file"}
+                  role="region"
+                  aria-label="File upload area - drag and drop files here or use the browse button below"
                 >
                   <input {...getInputProps()} ref={fileInputRef} />
                   
@@ -298,8 +297,31 @@ const PremiumUpload = () => {
                         <div className="text-gray-800 dark:text-gray-100 font-bold text-lg">
                           {isDragActive
                             ? 'Release to upload your file'
-                            : 'Drag & drop your resume here, or click to browse'}
+                            : 'Drag & drop your resume here, or use the browse button below'}
                         </div>
+                      </div>
+                      
+                      {/* Browse Button */}
+                      <div className="flex justify-center">
+                        <PremiumButton
+                          variant="glass"
+                          size="lg"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('🖱️ Browse button clicked - calling open()');
+                            if (typeof open === 'function') {
+                              open();
+                              console.log('✅ Open function called successfully');
+                            } else {
+                              console.error('❌ Open function not available');
+                            }
+                          }}
+                          className="px-8 py-3"
+                          type="button"
+                        >
+                          Browse Files
+                        </PremiumButton>
                       </div>
                       
                       {/* File format indicators */}
@@ -307,14 +329,6 @@ const PremiumUpload = () => {
                         <div className="flex items-center space-x-2 p-3 bg-red-50 dark:bg-red-900/20 rounded-xl">
                           <span className="text-red-500 text-xl">📄</span>
                           <span>PDF</span>
-                        </div>
-                        <div className="flex items-center space-x-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
-                          <span className="text-blue-500 text-xl">🖼️</span>
-                          <span>JPG</span>
-                        </div>
-                        <div className="flex items-center space-x-2 p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
-                          <span className="text-green-500 text-xl">🖼️</span>
-                          <span>PNG</span>
                         </div>
                       </div>
                       

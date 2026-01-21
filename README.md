@@ -121,7 +121,7 @@ smart-cv-analyzer/
 ## 🎯 Features
 
 ### Core Functionality
-- **📄 Multi-Format Upload**: Support for PDF and image formats (PNG, JPG, JPEG)
+- **📄 PDF Upload**: Support for PDF format only
 - **🔍 Advanced OCR**: Extract text from uploaded documents using Tesseract
 - **🧠 Intelligent Section Classification**: Automatically identify resume sections using NLP and DistilBERT
 - **📊 Comprehensive Scoring**: ML-based resume evaluation (0-100 scale) with detailed breakdowns

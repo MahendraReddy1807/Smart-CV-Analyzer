@@ -111,7 +111,7 @@ const DebugUpload = () => {
         <input
           type="file"
           onChange={(e) => setFile(e.target.files[0])}
-          accept=".pdf,.png,.jpg,.jpeg"
+          accept=".pdf"
           style={{ margin: '5px', padding: '10px' }}
         />
         <br />

@@ -7,6 +7,162 @@ import fs from 'fs';
 
 dotenv.config();
 
+// Professional ATS-Grade Resume Validation Function
+function validateResumeContentATS(text, filename) {
+  const textLower = text.toLowerCase();
+  const filenameLower = filename ? filename.toLowerCase() : '';
+  
+  // ATS Resume Categories with professional scoring
+  const resumeCategories = {
+    CORE_RESUME_IDENTITY: {
+      keywords: ['resume', 'cv', 'curriculum vitae', 'bio-data', 'biodata', 'professional profile', 'career summary', 'profile summary'],
+      weight: 10,
+      categoryBonus: 3
+    },
+    EDUCATION_SIGNALS: {
+      keywords: ['education', 'qualification', 'academic', 'degree', 'b.e', 'b.tech', 'm.tech', 'b.sc', 'm.sc', 'diploma', 'cgpa', 'gpa', 'percentage', 'university', 'college', 'school', 'bachelor', 'master', 'phd', 'doctorate'],
+      weight: 1,
+      categoryBonus: 3
+    },
+    EXPERIENCE_SIGNALS: {
+      keywords: ['experience', 'work experience', 'employment', 'internship', 'intern', 'job role', 'designation', 'company', 'organization', 'responsibilities', 'worked at', 'position', 'role', 'employment history', 'work history'],
+      weight: 1,
+      categoryBonus: 3
+    },
+    SKILLS_SIGNALS: {
+      keywords: ['skills', 'technical skills', 'soft skills', 'programming', 'languages', 'frameworks', 'tools', 'technologies', 'python', 'java', 'sql', 'html', 'css', 'javascript', 'machine learning', 'data science', 'competencies'],
+      weight: 1,
+      categoryBonus: 3
+    },
+    PROJECTS_ACHIEVEMENTS: {
+      keywords: ['projects', 'mini project', 'major project', 'final year project', 'achievements', 'awards', 'certifications', 'hackathon', 'competition', 'portfolio', 'accomplishments'],
+      weight: 1,
+      categoryBonus: 3
+    },
+    CONTACT_IDENTITY: {
+      keywords: ['email', 'phone', 'mobile', 'contact', 'linkedin', 'github', 'portfolio', 'address', 'location'],
+      weight: 1,
+      categoryBonus: 3
+    },
+    RESUME_SECTIONS: {
+      keywords: ['objective', 'career objective', 'summary', 'profile', 'strengths', 'hobbies', 'interests', 'declaration', 'references', 'personal details', 'about me'],
+      weight: 1,
+      categoryBonus: 3
+    }
+  };
+  
+  // Strong non-resume indicators
+  const nonResumeIndicators = [
+    'certificate of completion', 'certificate of achievement', 'course completion', 'training certificate',
+    'marksheet', 'transcript', 'offer letter', 'appointment letter', 'salary slip', 'pay stub',
+    'syllabus', 'curriculum', 'course outline', 'project report', 'thesis', 'dissertation',
+    'id card', 'identity card', 'passport', 'driving license', 'congratulations', 'celebration',
+    'social media post', 'facebook post', 'twitter post', 'meeting notes', 'agenda', 'minutes',
+    // Company list indicators
+    'top companies', 'list of companies', 'mnc companies', 'company list',
+    'companies in india', 'best companies', 'fortune 500', 'company directory',
+    'company names', 'organization list', 'corporate directory', 'business directory',
+    // Permission/Authorization letters
+    'permission letter', 'authorization letter', 'approval letter',
+    'hackathon', 'competition', 'event registration', 'participation'
+  ];
+  
+  let totalScore = 0;
+  let detectedSections = [];
+  let foundKeywords = [];
+  
+  // Check each category
+  Object.entries(resumeCategories).forEach(([categoryName, categoryData]) => {
+    let categoryKeywordCount = 0;
+    let keywordsFoundInCategory = [];
+    
+    categoryData.keywords.forEach(keyword => {
+      const regex = new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+      const matches = textLower.match(regex);
+      if (matches) {
+        keywordsFoundInCategory.push(keyword);
+        categoryKeywordCount += matches.length;
+        foundKeywords.push(...matches);
+      }
+    });
+    
+    if (keywordsFoundInCategory.length > 0) {
+      detectedSections.push(categoryName.replace(/_/g, ' '));
+      
+      // Add points for keywords
+      let keywordPoints = categoryKeywordCount * categoryData.weight;
+      
+      // Add category bonus
+      let categoryBonus = categoryData.categoryBonus;
+      
+      // Special handling for CORE_RESUME_IDENTITY
+      if (categoryName === 'CORE_RESUME_IDENTITY') {
+        keywordPoints += 10; // Extra 10 points for core identity
+      }
+      
+      totalScore += keywordPoints + categoryBonus;
+    }
+  });
+  
+  // Check for non-resume indicators
+  const foundNonResumeIndicators = nonResumeIndicators.filter(indicator => {
+    const regex = new RegExp(`\\b${indicator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+    return regex.test(textLower);
+  });
+  
+  // Check filename for resume indicators
+  const resumeFilenameIndicators = ['resume', 'cv', 'curriculum', 'vitae'];
+  const filenameScore = resumeFilenameIndicators.filter(indicator => 
+    filenameLower.includes(indicator)
+  ).length * 2;
+  
+  totalScore += filenameScore;
+  
+  // Check for contact information
+  const hasEmail = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/i.test(text);
+  const hasPhone = /\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/.test(text);
+  
+  if (hasEmail) totalScore += 2;
+  if (hasPhone) totalScore += 2;
+  
+  console.log(`ATS Resume Validation: score=${totalScore}, sections=${detectedSections.length}, nonResumeIndicators=${foundNonResumeIndicators.length}`);
+  
+  // Professional ATS decision logic
+  const ATS_THRESHOLD = 18;
+  
+  // Immediate rejection for strong non-resume indicators
+  if (foundNonResumeIndicators.length >= 2 && totalScore < 25) {
+    return {
+      isValid: false,
+      reason: `Document contains non-resume indicators: ${foundNonResumeIndicators.slice(0, 3).join(', ')}. This appears to be a certificate, marksheet, or other non-resume document.`,
+      atsScore: totalScore,
+      detectedSections: detectedSections,
+      nonResumeIndicators: foundNonResumeIndicators
+    };
+  }
+  
+  // ATS threshold check
+  if (totalScore < ATS_THRESHOLD) {
+    return {
+      isValid: false,
+      reason: `Document does not meet ATS resume criteria (score: ${totalScore}/${ATS_THRESHOLD}). Missing essential resume sections like experience, education, or skills.`,
+      atsScore: totalScore,
+      detectedSections: detectedSections,
+      missingSections: Object.keys(resumeCategories).filter(cat => 
+        !detectedSections.includes(cat.replace(/_/g, ' '))
+      )
+    };
+  }
+  
+  return {
+    isValid: true,
+    reason: `Document meets ATS resume criteria with score ${totalScore}/${ATS_THRESHOLD}. Contains essential resume sections: ${detectedSections.slice(0, 5).join(', ')}.`,
+    atsScore: totalScore,
+    detectedSections: detectedSections,
+    confidenceScore: Math.min(100, Math.round((totalScore / 30) * 100))
+  };
+}
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -394,6 +550,29 @@ app.post('/api/resume/upload', upload.single('file'), async (req, res) => {
             extractedText = fileBuffer.toString('utf-8');
             console.log('Extracted text from file:', extractedText.substring(0, 200) + '...');
             
+            // PROFESSIONAL ATS-GRADE RESUME VALIDATION
+            const atsValidation = validateResumeContentATS(extractedText, file.originalname);
+            if (!atsValidation.isValid) {
+              console.log('File rejected by ATS validation:', atsValidation.reason);
+              return res.status(400).json({
+                status: 'rejected',
+                message: 'This uploaded file is not a resume. Please upload a proper CV or Resume for scoring.',
+                details: atsValidation.reason,
+                ats_score: atsValidation.atsScore,
+                detected_sections: atsValidation.detectedSections || [],
+                missing_sections: atsValidation.missingSections || [],
+                non_resume_indicators: atsValidation.nonResumeIndicators || [],
+                suggestions: [
+                  'Upload a document that contains your professional experience',
+                  'Include education details, skills, and work history',
+                  'Ensure the document is a proper resume/CV format',
+                  'Avoid uploading certificates, marksheets, or project reports'
+                ]
+              });
+            }
+            
+            console.log(`ATS Validation passed: score=${atsValidation.atsScore}, confidence=${atsValidation.confidenceScore}%`);
+            
             // Extract information from text
             const lines = extractedText.split('\n').map(line => line.trim()).filter(line => line);
             
@@ -450,14 +629,63 @@ app.post('/api/resume/upload', upload.single('file'), async (req, res) => {
             }
             
           } else {
-            // For other file types, use placeholder
+            // For other file types, use placeholder but still validate filename
             extractedText = `[Content from ${file.originalname}]\n\nFile type: ${file.mimetype}`;
+            
+            // Check if filename suggests this is a resume
+            const filename = file.originalname.toLowerCase();
+            const resumeIndicators = ['resume', 'cv', 'curriculum', 'vitae'];
+            const hasResumeIndicator = resumeIndicators.some(indicator => filename.includes(indicator));
+            
+            if (!hasResumeIndicator) {
+              console.log('File rejected - filename does not indicate resume:', file.originalname);
+              return res.status(400).json({
+                status: 'rejected',
+                message: 'Uploaded document does not appear to be a resume. Please upload a valid resume.',
+                details: 'Filename does not contain resume indicators (resume, cv, curriculum vitae)',
+                suggestions: [
+                  'Please upload a resume or CV document',
+                  'Ensure the filename contains "resume" or "cv"',
+                  'Supported formats: PDF files only',
+                  'Avoid uploading certificates, social media content, or non-professional documents'
+                ]
+              });
+            }
           }
         } catch (readError) {
           console.error('Error reading uploaded file:', readError);
           extractedText = `[Error reading ${file.originalname}]`;
         }
       }
+      
+      // ALWAYS VALIDATE WITH ATS SYSTEM - NO EXCEPTIONS
+      console.log('Running ATS validation on extracted content...');
+      const atsValidation = validateResumeContentATS(extractedText, file.originalname);
+      
+      if (!atsValidation.isValid) {
+        console.log('File rejected by ATS validation:', atsValidation.reason);
+        return res.status(400).json({
+          status: 'rejected',
+          message: 'This uploaded file is not a resume. Please upload a proper CV or Resume for scoring.',
+          details: atsValidation.reason,
+          ats_score: atsValidation.atsScore,
+          detected_sections: atsValidation.detectedSections || [],
+          missing_sections: atsValidation.missingSections || [],
+          non_resume_indicators: atsValidation.nonResumeIndicators || [],
+          suggestions: [
+            'Upload a document that contains your professional experience',
+            'Include education details, skills, and work history',
+            'Ensure the document is a proper resume/CV format',
+            'Avoid uploading certificates, marksheets, or project reports'
+          ]
+        });
+      }
+      
+      console.log(`ATS Validation passed for mock analysis: score=${atsValidation.atsScore}, confidence=${atsValidation.confidenceScore}%`);
+      
+      // Only proceed with mock analysis if ATS validation passed
+      // Use ATS score as base for more realistic scoring
+      const baseScore = Math.min(95, Math.max(60, atsValidation.atsScore * 2.5)); // Scale ATS score to 60-95 range
       
       const mockAnalysis = {
         _id: analysisCounter++,
@@ -478,12 +706,12 @@ app.post('/api/resume/upload', upload.single('file'), async (req, res) => {
           projects: "Project details would be extracted here",
           certifications: "Certifications would be extracted here"
         },
-        overallScore: Math.floor(Math.random() * 30) + 60, // 60-90 range
+        overallScore: Math.round(baseScore + (Math.random() * 10 - 5)), // ATS-based score ±5
         scoreBreakdown: {
-          structureScore: Math.floor(Math.random() * 20) + 70,
-          skillsScore: Math.min(95, 40 + (extractedData.skills.length * 4)),
-          contentScore: extractedData.email !== 'Not found' && extractedData.phone !== 'Not found' ? 85 : 65,
-          atsCompatibility: extractedData.skills.length > 6 ? 85 : extractedData.skills.length > 3 ? 75 : 60
+          structureScore: Math.round(baseScore + (Math.random() * 10 - 5)),
+          skillsScore: Math.min(95, Math.round(baseScore + (extractedData.skills.length * 3))),
+          contentScore: extractedData.email !== 'Not found' && extractedData.phone !== 'Not found' ? Math.round(baseScore + 10) : Math.round(baseScore - 5),
+          atsCompatibility: Math.round(atsValidation.atsScore * 3) // Direct ATS score scaling
         },
         issues: [
           "Consider adding more quantifiable achievements",
@@ -560,7 +788,7 @@ app.post('/api/resume/upload', upload.single('file'), async (req, res) => {
             "Include links to portfolio or GitHub projects"
           ],
           overall_impression: `This is a solid resume for a ${jobRole} position. The candidate shows relevant experience and skills, with room for enhancement in quantified achievements and keyword optimization.`,
-          ats_score: Math.floor(Math.random() * 15) + 75
+          ats_score: atsValidation.atsScore // Use actual ATS score
         },
         enhancedBullets: [
           {

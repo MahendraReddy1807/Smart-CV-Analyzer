@@ -48,12 +48,12 @@ async def analyze_resume(
     temp_file_path = None
     
     try:
-        # Validate file type
-        allowed_types = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg']
+        # Validate file type - Only PDF files allowed
+        allowed_types = ['application/pdf']
         if file.content_type not in allowed_types:
             raise HTTPException(
                 status_code=400, 
-                detail=f"Unsupported file type: {file.content_type}. Allowed types: {', '.join(allowed_types)}"
+                detail=f"Unsupported file type: {file.content_type}. Only PDF files are allowed."
             )
         
         # Validate file size (10MB limit)

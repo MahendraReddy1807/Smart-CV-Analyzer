@@ -11,19 +11,21 @@ async function testValidation() {
     
     const testCases = [
         {
-            name: 'Valid Resume (high-quality-resume.txt)',
-            file: 'high-quality-resume.txt',
+            name: 'Valid Resume (PDF)',
+            file: 'Mahendra-Reddy-ML-Engineer.pdf',
             shouldPass: true
         },
         {
-            name: 'Valid Resume (test-resume.txt)',
-            file: 'test-resume.txt',
-            shouldPass: true
-        },
-        {
-            name: 'Basic Resume (test-resume-basic.txt)',
-            file: 'test-resume-basic.txt',
-            shouldPass: false // This one is too basic
+            name: 'Invalid Certificate Content (create temporary)',
+            content: `Certificate of Completion
+
+This certifies that John Doe has successfully completed the course:
+"Machine Learning Specialization"
+Offered by Coursera in partnership with Stanford University
+Date of Completion: December 2024
+Coursera Certificate ID: ABC123XYZ`,
+            filename: 'temp-certificate.txt',
+            shouldPass: false // This should be rejected as it's a certificate
         }
     ];
     
@@ -31,19 +33,27 @@ async function testValidation() {
         console.log(`📝 Testing: ${testCase.name}`);
         
         try {
-            if (!fs.existsSync(testCase.file)) {
-                console.log(`❌ File not found: ${testCase.file}\n`);
+            let fileToTest = testCase.file;
+            
+            // If this is a content-based test case, create a temporary file
+            if (testCase.content) {
+                fs.writeFileSync(testCase.filename, testCase.content);
+                fileToTest = testCase.filename;
+            }
+            
+            if (!fs.existsSync(fileToTest)) {
+                console.log(`❌ File not found: ${fileToTest}\n`);
                 continue;
             }
             
             const formData = new FormData();
-            formData.append('file', fs.createReadStream(testCase.file), {
-                filename: testCase.file,
-                contentType: 'text/plain'
+            formData.append('file', fs.createReadStream(fileToTest), {
+                filename: fileToTest,
+                contentType: fileToTest.endsWith('.pdf') ? 'application/pdf' : 'text/plain'
             });
             formData.append('jobRole', 'Software Engineer');
             
-            const response = await axios.post('http://localhost:3001/api/resume/upload', formData, {
+            const response = await axios.post('http://localhost:5000/api/resume/upload', formData, {
                 headers: {
                     ...formData.getHeaders(),
                 },
@@ -69,6 +79,11 @@ async function testValidation() {
                 }
             } else {
                 console.log(`❌ ERROR: ${error.message}`);
+            }
+        } finally {
+            // Clean up temporary files
+            if (testCase.content && fs.existsSync(testCase.filename)) {
+                fs.unlinkSync(testCase.filename);
             }
         }
         

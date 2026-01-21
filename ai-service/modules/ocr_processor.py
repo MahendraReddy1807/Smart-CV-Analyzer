@@ -33,7 +33,8 @@ class OCRProcessor:
             if file_extension == '.pdf':
                 return self._extract_from_pdf(file_path)
             elif file_extension in ['.png', '.jpg', '.jpeg']:
-                return self._extract_from_image(file_path)
+                # Image files no longer supported - return error message
+                return "[ERROR] Image files are no longer supported. Please upload PDF files only."
             else:
                 raise ValueError(f"Unsupported file format: {file_extension}")
                 

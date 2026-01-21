@@ -37,8 +37,24 @@ echo.
 echo.
 
 echo [5/5] Testing upload endpoint with simple data...
-echo Creating test file...
-echo "Test resume content" > test-resume.txt
+echo Creating temporary test resume file...
+echo Jane Doe > test-resume.txt
+echo Data Scientist >> test-resume.txt
+echo jane.doe@company.com >> test-resume.txt
+echo (555) 987-6543 >> test-resume.txt
+echo. >> test-resume.txt
+echo EDUCATION >> test-resume.txt
+echo Master of Science in Data Science >> test-resume.txt
+echo MIT, 2019-2021 >> test-resume.txt
+echo. >> test-resume.txt
+echo EXPERIENCE >> test-resume.txt
+echo Data Scientist >> test-resume.txt
+echo Netflix Inc. (2021-Present) >> test-resume.txt
+echo - Built recommendation algorithms using Python >> test-resume.txt
+echo - Analyzed user behavior data with SQL >> test-resume.txt
+echo. >> test-resume.txt
+echo SKILLS >> test-resume.txt
+echo Python, SQL, TensorFlow, Machine Learning, Data Science >> test-resume.txt
 
 echo Testing upload...
 curl -X POST http://localhost:5000/api/resume/upload ^

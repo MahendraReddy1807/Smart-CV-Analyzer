@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Browse Button Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        #results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Frontend Browse Button Test</h1>
+        <p>This page tests the frontend upload functionality and browse button behavior.</p>
+        
+        <div class="test-section">
+            <h3>📊 Service Status Check</h3>
+            <button class="button" onclick="checkServices()">Check All Services</button>
+            <div id="service-status"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🌐 Frontend Access Test</h3>
+            <button class="button" onclick="testFrontend()">Test Frontend Access</button>
+            <div id="frontend-status"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📁 File Upload Test</h3>
+            <p>Instructions for manual testing:</p>
+            <ol>
+                <li>Open the frontend at <a href="http://localhost:3001" target="_blank">http://localhost:3001</a></li>
+                <li>Navigate to the upload page</li>
+                <li>Try both drag & drop and browse button</li>
+                <li>Upload the Mahendra-Reddy-Resume.txt file</li>
+                <li>Check if sections are extracted correctly</li>
+            </ol>
+            <button class="button" onclick="openFrontend()">Open Frontend</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔧 Backend API Test</h3>
+            <button class="button" onclick="testBackendAPI()">Test Resume Upload API</button>
+            <div id="api-status"></div>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        async function checkServices() {
+            const statusDiv = document.getElementById('service-status');
+            statusDiv.innerHTML = '<div class="info">Checking services...</div>';
+            
+            const services = [
+                { name: 'Frontend', url: 'http://localhost:3001', type: 'frontend' },
+                { name: 'Backend', url: 'http://localhost:3000/health', type: 'api' },
+                { name: 'AI Service', url: 'http://localhost:8002/health', type: 'api' }
+            ];
+            
+            let results = '';
+            
+            for (const service of services) {
+                try {
+                    if (service.type === 'frontend') {
+                        // For frontend, just check if we can reach it
+                        const response = await fetch(service.url, { method: 'HEAD', mode: 'no-cors' });
+                        results += `<div class="success">✅ ${service.name}: Accessible</div>`;
+                    } else {
+                        // For APIs, check the health endpoint
+                        const response = await fetch(service.url);
+                        if (response.ok) {
+                            const data = await response.json();
+                            results += `<div class="success">✅ ${service.name}: ${data.status || 'OK'}</div>`;
+                        } else {
+                            results += `<div class="error">❌ ${service.name}: HTTP ${response.status}</div>`;
+                        }
+                    }
+                } catch (error) {
+                    results += `<div class="error">❌ ${service.name}: ${error.message}</div>`;
+                }
+            }
+            
+            statusDiv.innerHTML = results;
+        }
+        
+        async function testFrontend() {
+            const statusDiv = document.getElementById('frontend-status');
+            statusDiv.innerHTML = '<div class="info">Testing frontend access...</div>';
+            
+            try {
+                // Try to access the frontend
+                const response = await fetch('http://localhost:3001', { method: 'HEAD', mode: 'no-cors' });
+                statusDiv.innerHTML = '<div class="success">✅ Frontend is accessible at http://localhost:3001</div>';
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="error">❌ Frontend not accessible: ${error.message}</div>`;
+            }
+        }
+        
+        function openFrontend() {
+            window.open('http://localhost:3001', '_blank');
+        }
+        
+        async function testBackendAPI() {
+            const statusDiv = document.getElementById('api-status');
+            statusDiv.innerHTML = '<div class="info">Testing backend API...</div>';
+            
+            try {
+                // Test the backend health endpoint
+                const healthResponse = await fetch('http://localhost:3000/health');
+                if (!healthResponse.ok) {
+                    throw new Error(`Backend health check failed: ${healthResponse.status}`);
+                }
+                
+                // Test the AI service health endpoint
+                const aiResponse = await fetch('http://localhost:8002/health');
+                if (!aiResponse.ok) {
+                    throw new Error(`AI service health check failed: ${aiResponse.status}`);
+                }
+                
+                const healthData = await healthResponse.json();
+                const aiData = await aiResponse.json();
+                
+                statusDiv.innerHTML = `
+                    <div class="success">✅ Backend API: ${healthData.status}</div>
+                    <div class="success">✅ AI Service: ${aiData.status}</div>
+                    <div class="info">📝 Ready to test file upload functionality</div>
+                `;
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="error">❌ API Test Failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Auto-check services on page load
+        window.addEventListener('load', checkServices);
+    </script>
+</body>
+</html>

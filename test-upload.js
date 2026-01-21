@@ -5,7 +5,17 @@ const http = require('http');
 // Test resume upload
 const testUpload = () => {
   const form = new FormData();
-  form.append('file', fs.createReadStream('test-resume.txt'));
+  
+  // Check if the proper resume file exists
+  if (fs.existsSync('Mahendra-Reddy-Resume.txt')) {
+    form.append('file', fs.createReadStream('Mahendra-Reddy-Resume.txt'));
+  } else if (fs.existsSync('Mahendra-Reddy-ML-Engineer.pdf')) {
+    form.append('file', fs.createReadStream('Mahendra-Reddy-ML-Engineer.pdf'));
+  } else {
+    console.log('❌ No test resume file found. Please ensure Mahendra-Reddy-Resume.txt exists.');
+    return;
+  }
+  
   form.append('jobRole', 'Frontend Developer');
 
   const options = {

@@ -41,8 +41,24 @@ if %errorlevel% neq 0 (
 echo.
 
 echo [4/4] Testing Backend-AI Service Connection...
-echo Creating test file...
-echo Sample resume content > test-resume.txt
+echo Creating temporary test resume file...
+echo John Smith > test-resume.txt
+echo Software Engineer >> test-resume.txt
+echo john.smith@email.com >> test-resume.txt
+echo (555) 123-4567 >> test-resume.txt
+echo. >> test-resume.txt
+echo EDUCATION >> test-resume.txt
+echo Bachelor of Science in Computer Science >> test-resume.txt
+echo University of Technology, 2020-2024 >> test-resume.txt
+echo. >> test-resume.txt
+echo EXPERIENCE >> test-resume.txt
+echo Software Engineer Intern >> test-resume.txt
+echo Tech Company (Summer 2023) >> test-resume.txt
+echo - Developed web applications using React and Node.js >> test-resume.txt
+echo - Collaborated with cross-functional teams >> test-resume.txt
+echo. >> test-resume.txt
+echo SKILLS >> test-resume.txt
+echo JavaScript, React, Node.js, Python, SQL, Git >> test-resume.txt
 
 echo Testing upload endpoint...
 curl -s -X POST http://localhost:5000/api/resume/upload ^

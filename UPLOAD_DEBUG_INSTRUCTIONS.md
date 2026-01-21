@@ -14,7 +14,7 @@ I've temporarily replaced the complex AnalysisResults component with a simple ve
 
 ### 2. Test Upload Process
 1. Go to: `http://localhost:3003`
-2. Upload a resume file (PDF, PNG, JPG, JPEG)
+2. Upload a resume file (PDF only)
 3. Enter job role: "Software Engineer"
 4. Click "Analyze Resume"
 5. Watch the browser console for any errors

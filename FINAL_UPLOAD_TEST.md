@@ -13,7 +13,7 @@
 1. **Open**: http://localhost:3000/debug
 2. **Click**: "Test Backend Health" → Should show ✅
 3. **Click**: "Test AI Service Health" → Should show ✅  
-4. **Select a file** (PDF, PNG, JPG, or JPEG)
+4. **Select a PDF file**
 5. **Click**: "Upload & Analyze"
 6. **Watch the logs** for detailed progress
 

@@ -22,9 +22,27 @@ async function testUpload() {
     try {
         console.log('📤 Testing file upload...');
         
-        // Create a test file
-        const testContent = 'Test resume content for upload';
-        const testFile = new File([testContent], 'test-resume.txt', { type: 'text/plain' });
+        // Create a proper test resume file
+        const resumeContent = `John Smith
+Software Engineer
+john.smith@email.com
+(555) 123-4567
+San Francisco, CA
+
+EDUCATION
+Bachelor of Science in Computer Science
+Stanford University, 2020-2024
+
+EXPERIENCE
+Software Engineer Intern
+Google Inc. (Summer 2023)
+• Developed React components for user dashboard
+• Implemented REST APIs using Node.js and Express
+
+SKILLS
+JavaScript, React, Node.js, Python, SQL, Git, HTML, CSS`;
+        
+        const testFile = new File([resumeContent], 'test-resume.txt', { type: 'text/plain' });
         
         // Create form data
         const formData = new FormData();

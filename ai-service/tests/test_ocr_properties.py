@@ -37,7 +37,7 @@ class TestOCRProperties:
         draw.text((50, 50), text, fill='black', font=font)
         
         # Save to temporary file
-        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
+        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf')
         img.save(temp_file.name)
         temp_file.close()
         

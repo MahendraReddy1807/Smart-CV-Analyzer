@@ -23,7 +23,7 @@ class TestFileValidationProperties:
         temp_file.close()
         return temp_file.name
     
-    @given(st.sampled_from(['.pdf', '.png', '.jpg', '.jpeg', '.PDF', '.PNG', '.JPG', '.JPEG']))
+    @given(st.sampled_from(['.pdf', '.PDF']))
     @settings(max_examples=20)
     def test_valid_file_formats_accepted(self, extension):
         """
@@ -110,9 +110,9 @@ class TestFileValidationProperties:
         """Test that file format validation is case-insensitive"""
         extensions_to_test = [
             ('.pdf', True), ('.PDF', True), ('.Pdf', True),
-            ('.png', True), ('.PNG', True), ('.Png', True),
-            ('.jpg', True), ('.JPG', True), ('.Jpg', True),
-            ('.jpeg', True), ('.JPEG', True), ('.Jpeg', True),
+            ('.png', False), ('.PNG', False), ('.Png', False),
+            ('.jpg', False), ('.JPG', False), ('.Jpg', False),
+            ('.jpeg', False), ('.JPEG', False), ('.Jpeg', False),
             ('.txt', False), ('.TXT', False), ('.Txt', False)
         ]
         
@@ -151,7 +151,7 @@ class TestFileValidationProperties:
         with pytest.raises(Exception):  # Could be ValueError or FileNotFoundError
             self.ocr_processor.extract_text("non_existent_file.pdf")
     
-    @given(st.sampled_from(['.pdf', '.png', '.jpg', '.jpeg']))
+    @given(st.sampled_from(['.pdf']))
     def test_supported_formats_consistency(self, extension):
         """
         **Feature: smart-cv-analyzer, Property 2: File Format Validation**

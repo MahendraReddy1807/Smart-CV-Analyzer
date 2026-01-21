@@ -19,7 +19,7 @@ const UploadResume = () => {
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     if (rejectedFiles.length > 0) {
-      setError('Please upload a valid PDF, PNG, JPG, or JPEG file')
+      setError('Please upload a valid PDF file')
       return
     }
     
@@ -33,9 +33,7 @@ const UploadResume = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'application/pdf': ['.pdf'],
-      'image/png': ['.png'],
-      'image/jpeg': ['.jpg', '.jpeg']
+      'application/pdf': ['.pdf']
     },
     maxSize: 10 * 1024 * 1024, // 10MB
     multiple: false
@@ -253,14 +251,6 @@ const UploadResume = () => {
                   <div className="flex items-center space-x-1">
                     <span className="text-red-500">📄</span>
                     <span>PDF</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <span className="text-blue-500">🖼️</span>
-                    <span>JPG</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <span className="text-green-500">🖼️</span>
-                    <span>PNG</span>
                   </div>
                 </div>
                 
